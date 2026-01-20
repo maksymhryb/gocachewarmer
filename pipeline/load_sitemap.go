@@ -38,7 +38,7 @@ func LoadSitemap(ctx context.Context, config *config.Config) <-chan string {
 		if config.SitemapUrl == "" {
 			panic("sitemap url is not specified")
 		}
-		cl := client.NewClient()
+		cl := client.NewClient(config.UserAgent, config.ConnectionTimeout)
 		var response, err = cl.Get(config.SitemapUrl)
 
 		if err != nil {

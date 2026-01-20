@@ -38,7 +38,7 @@ func Warmup(ctx context.Context, config *config.Config, inputCh <-chan string) <
 		defer close(outputCh)
 		log.Println("[Warmup Stage] started")
 
-		cl := client.NewClient()
+		cl := client.NewClient(config.UserAgent, config.ConnectionTimeout)
 		startWorker := func(wg *sync.WaitGroup, i int) {
 			defer wg.Done()
 			defer log.Printf("[Warmup Stage] worker %d stopped", i)

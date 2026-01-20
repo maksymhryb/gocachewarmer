@@ -8,10 +8,11 @@ import (
 
 type transport struct {
 	http.RoundTripper
+	UserAgent string
 }
 
 func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
-	req.Header.Set("User-Agent", "GoCacheWarmer")
+	req.Header.Set("User-Agent", t.UserAgent)
 	log.Printf("HTTP request [%s] %s\n", req.Method, req.URL)
 	resp, err := t.RoundTripper.RoundTrip(req)
 	log.Printf("HTTP response [%s] %s - %d\n", req.Method, req.URL, resp.StatusCode)
@@ -21,12 +22,13 @@ func (t *transport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 var client *http.Client
 
-func NewClient() *http.Client {
+func NewClient(useragent string, timeout time.Duration) *http.Client {
 	if client == nil {
 		client = &http.Client{
-			Timeout: 30 * time.Second,
+			Timeout: timeout,
 			Transport: &transport{
 				RoundTripper: http.DefaultTransport,
+				UserAgent:    useragent,
 			},
 		}
 	}

@@ -18,7 +18,7 @@ type Config struct {
 	FilterInputUrl           string        `yaml:"filter-input-url"`
 	FilterOutputStatus       string        `yaml:"filter-output-status"`
 	ConcurrentRequests       int           `yaml:"concurrent-requests"`
-	ConnectionTimeout        int           `yaml:"connection-timeout"`
+	ConnectionTimeout        time.Duration `yaml:"connection-timeout"`
 	Limit                    int           `yaml:"limit"`
 	SkipLogs                 bool          `yaml:"skip-logs"`
 	SkipReport               bool          `yaml:"skip-report"`
@@ -37,7 +37,7 @@ var DefaultConfig = &Config{
 	FilterInputUrl:           "",
 	FilterOutputStatus:       "",
 	ConcurrentRequests:       10,
-	ConnectionTimeout:        30,
+	ConnectionTimeout:        30 * time.Second,
 	Limit:                    0,
 	SkipLogs:                 false,
 	SkipReport:               false,
@@ -62,7 +62,6 @@ func InitCliConfig() *Config {
 	flag.StringVar(&config.FilterOutputStatus, "filter-output-status", config.FilterOutputStatus, "Filter URLs in report by status mask")
 
 	flag.IntVar(&config.ConcurrentRequests, "concurrent-requests", config.ConcurrentRequests, "Amount of concurrent HTTP-requests")
-	flag.IntVar(&config.ConnectionTimeout, "connection-timeout", config.ConnectionTimeout, "Connection timeout in seconds for HTTP-requests")
 	flag.IntVar(&config.Limit, "limit", config.Limit, "Amount of URLs from sitemap that will be processed")
 
 	flag.BoolVar(&config.SkipLogs, "skip-logs", config.SkipLogs, "Skip logs")
@@ -71,6 +70,7 @@ func InitCliConfig() *Config {
 
 	flag.BoolVar(&config.DryRun, "dry-run", config.DryRun, "Will imitate warmup requests instead of doing real HTTP-requests")
 
+	flag.DurationVar(&config.ConnectionTimeout, "connection-timeout", config.ConnectionTimeout, "Connection timeout for HTTP-requests (for example: 30s)")
 	flag.DurationVar(&config.FilterOutputResponseTime, "filter-output-response-time", config.FilterOutputResponseTime, "Filter URLs in report above threshold (for example: 200ms, 1.5s)")
 
 	flag.Usage = func() {

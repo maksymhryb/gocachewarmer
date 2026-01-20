@@ -2,7 +2,7 @@
 
 [![Go Report Card](https.://goreportcard.com/badge/github.com/maksymhryb/gocachewarmer)](https.://goreportcard.com/report/github.com/maksymhryb/gocachewarmer)
 
-GoCacheWarmer is developed as part of educational project to learn Golang in general and Golang's concurrency model specifically.
+GoCacheWarmer is developed as part of educational project to learn Golang in general and Golang's concurrency model specifically. Uses concurrency patterns pipeline and worker pool.
 
 ## UI Overview
 
@@ -57,16 +57,16 @@ Configuration can be provided via command-line flags or a `config.yaml` file. If
 | `-aggregate-report-name`    | Aggregate report file name                                                                          | "cachewarmup_aggregate_report.csv"     |
 | `-log-name`                 | Log file name                                                                                       | "cachewarmup.log"                      |
 | `-user-agent`               | User agent                                                                                          | "GoCacheWarmer"                        |
-| `-filter-input-url`         | Filter URLs from sitemap that will be warmed up, allowed `*` symbol for pattern matching              | ""                                     |
+| `-filter-input-url`         | Filter URLs from sitemap that will be warmed up, allowed `*` symbol for pattern matching            | ""                                     |
 | `-filter-output-status`     | Filter URLs in report by status mask (e.g., "2XX", "500")                                           | ""                                     |
 | `-concurrent-requests`      | Amount of concurrent HTTP-requests                                                                  | 10                                     |
-| `-connection-timeout`       | Connection timeout in seconds for HTTP-requests                                                     | 30                                     |
+| `-connection-timeout`       | Connection timeout for HTTP-requests (for example: 30s)                                             | 30s                                    |
 | `-limit`                    | Amount of URLs from sitemap that will be processed                                                  | 0 (no limit)                           |
 | `-skip-logs`                | Skip logs                                                                                           | false                                  |
 | `-skip-report`              | Skip main report creation                                                                           | false                                  |
 | `-skip-aggregate-report`    | Skip aggregate report creation                                                                      | false                                  |
 | `-dry-run`                  | Will imitate warmup requests instead of doing real HTTP-requests                                    | false                                  |
-| `-filter-output-response-time` | Filter URLs in report above threshold (e.g., "200ms", "1.5s")                                     | 0s                                     |
+| `-filter-output-response-time` | Filter URLs in report above threshold (e.g., "200ms", "1.5s")                                    | 0s                                     |
 
 ### `config.yaml`
 
@@ -81,7 +81,7 @@ user-agent: GoCacheWarmer
 filter-input-url: "*services*"
 filter-output-status: ""
 concurrent-requests: 10
-connection-timeout: 30
+connection-timeout: 30s
 limit: 50
 skip-logs: false
 skip-report: false
